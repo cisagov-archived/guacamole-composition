@@ -23,6 +23,7 @@ volumes:
   dbdata:
 
 services:
+<<<<<<< HEAD
   init-guac-db:
     command:
       - /bin/sh
@@ -40,6 +41,28 @@ services:
       - source: ./dbinit
         target: /init
         type: bind
+=======
+  example:
+    # Run the container normally
+    build:
+      # VERSION must be specified on the command line:
+      # e.g., --build-arg VERSION=0.0.1
+      context: .
+      dockerfile: Dockerfile
+    image: cisagov/example
+    init: true
+    restart: "no"
+    environment:
+      - ECHO_MESSAGE=Hello World from docker compose!
+    ports:
+      - target: 8421
+        published: 8421
+        protocol: tcp
+        mode: host
+    secrets:
+      - source: quote_txt
+        target: quote.txt
+>>>>>>> 0d48ebd47a28a887868ea3093e675e95f3843561
 
   guacd:
     container_name: guacd
