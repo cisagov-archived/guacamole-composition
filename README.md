@@ -35,9 +35,17 @@ docker run cisagov/example:0.2.0
 The default credentials are `guacadmin`, `guacadmin` - you should change those
 as soon as possible.
 
+<<<<<<< HEAD
 ### Volumes ###
 
 #### postgres ####
+=======
+1. Create a `compose.yml` file similar to the one below to use [Docker Compose](https://docs.docker.com/compose/).
+
+    ```yaml
+    ---
+    name: skeleton-docker
+>>>>>>> eafe720594319b9503bd5e6d7e5b59e61ff9d6d5
 
 <<<<<<< HEAD
 | Mount Point | Purpose |
@@ -47,17 +55,17 @@ as soon as possible.
 =======
     services:
       example:
-        image: cisagov/example:0.2.0
-        volumes:
-          - type: bind
-            source: <your_log_dir>
-            target: /var/log
         environment:
           - ECHO_MESSAGE="Hello from docker compose"
+        image: cisagov/example:0.2.0
         ports:
-          - target: 8080
-            published: 8080
-            protocol: tcp
+          - protocol: tcp
+            published: "8080"
+            target: 8080
+        volumes:
+          - source: <your_log_dir>
+            target: /var/log
+            type: bind
     ```
 >>>>>>> 0d48ebd47a28a887868ea3093e675e95f3843561
 
@@ -90,11 +98,11 @@ composition on a publicly-accessible host:
     Better lock it in your pocket.
     ```
 
-1. Then add the secret to your `docker-compose.yml` file:
+1. Then add the secret to your `compose.yml` file:
 
     ```yaml
     ---
-    version: "3.7"
+    name: skeleton-docker
 
     secrets:
       quote_txt:
@@ -102,20 +110,20 @@ composition on a publicly-accessible host:
 
     services:
       example:
-        image: cisagov/example:0.2.0
-        volumes:
-          - type: bind
-            source: <your_log_dir>
-            target: /var/log
         environment:
           - ECHO_MESSAGE="Hello from docker compose"
+        image: cisagov/example:0.2.0
         ports:
-          - target: 8080
-            published: 8080
-            protocol: tcp
+          - protocol: tcp
+            published: "8080"
+            target: 8080
         secrets:
           - source: quote_txt
             target: quote.txt
+        volumes:
+          - source: <your_log_dir>
+            target: /var/log
+            type: bind
     ```
 
 ## Updating your container ##
@@ -175,9 +183,9 @@ If you want to add or remove dependencies you would update the `src/Pipfile` fil
 and then update dependencies as you would above.
 
 > [!NOTE]
-> You should only specify packages that are explicitly needed for your Docker
-> configuration. Allow [Pipenv] to manage the dependencies of the specified
-> packages.
+> You should only specify packages that are direct requirements of
+> your Docker configuration. Allow [Pipenv] to manage the dependencies
+> of the specified packages.
 
 ## Image tags ##
 
@@ -212,7 +220,7 @@ The following ports are exposed by this container:
 |------|----------------|
 | 8080 | Example only; nothing is actually listening on the port |
 
-The sample [Docker composition](docker-compose.yml) publishes the
+The sample [Docker composition](compose.yml) publishes the
 exposed port at 8080.
 
 ## Environment variables ##
