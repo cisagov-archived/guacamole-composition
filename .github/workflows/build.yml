@@ -261,8 +261,6 @@ jobs:
         uses: step-security/harden-runner@v2
         with:
           egress-policy: audit
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -284,8 +282,6 @@ jobs:
         with:
           cache-from: type=local,src=${{ env.BUILDX_CACHE_DIR }}
           cache-to: type=local,dest=${{ env.BUILDX_CACHE_DIR }}
-          context: .
-          file: ./Dockerfile
           labels: ${{ needs.prepare.outputs.labels }}
           outputs: type=docker,dest=dist/image.tar
           # Uncomment the following option if you are building an image for use
@@ -414,8 +410,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           username: ${{ github.actor }}
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -435,8 +429,6 @@ jobs:
         with:
           cache-from: type=local,src=${{ env.BUILDX_CACHE_DIR }}
           cache-to: type=local,dest=${{ env.BUILDX_CACHE_DIR }}
-          context: .
-          file: ./Dockerfile
           labels: ${{ needs.prepare.outputs.labels }}
           platforms: |
             linux/amd64
